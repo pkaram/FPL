@@ -1,7 +1,6 @@
   --review player performance
-
   SELECT second_name,
-    team_code,
+    teams.name,
     influence,
     creativity,
     threat,
@@ -14,5 +13,7 @@
     case when player_type.singular_name='Forward' then 1 else 0 end as forward
     from players
     join player_type on player_type.id=players.element_type
-    where date_loaded in (select max(date_loaded) from players)
+	join teams on teams.code=players.team_code
+    where players.date_loaded in (select max(date_loaded) from players)
+	and teams.date_loaded in (select max(date_loaded) from teams)
     order by cast(ict_index as float) desc

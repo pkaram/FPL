@@ -41,7 +41,7 @@ data_kmeans=players_clustering[['influence','creativity','threat','clean_sheets'
 
 #define how many clusters make sense
 Sum_of_squared_distances = []
-K = range(1,14)
+K = range(1,10)
 for k in K:
     km = KMeans(n_clusters=k)
     km = km.fit(data_kmeans)
@@ -57,11 +57,11 @@ plt.show()
 kmeans=KMeans(n_clusters=4).fit(data_kmeans)
 #add labels of clusters on the dataframe
 players_clustering['cluster_label']=kmeans.labels_
+players_clustering['now_cost']=players_clustering['now_cost'].astype(float)
+players_clustering['now_cost']=players_clustering['now_cost']/10
+players_clustering['ict_index']=players_clustering['ict_index'].astype(float)
 
 cluster_results=players_clustering[['singular_name','team_name','second_name','now_cost','points_per_game','minutes','cluster_label','ict_index']]
-cluster_results['now_cost']=[float(s) for s in cluster_results['now_cost']]
-cluster_results['now_cost']=cluster_results['now_cost']/10
-cluster_results['ict_index']=[float(s) for s in cluster_results['ict_index']]
 
 cluster_results=cluster_results.sort_values(by='ict_index',ascending=False)
 cluster_results=cluster_results.reset_index(drop=True)
