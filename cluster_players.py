@@ -21,15 +21,16 @@ teams_subset.team_name as team_name
 from players
 join player_type on players.element_type=player_type.id
 join teams_subset on teams_subset.code=players.team_code
-where players.date_loaded in (select max(date_loaded) as max_date from players)                       
+where players.date_loaded in (select max(date_loaded) as max_date from players)  
+and player_type.singular_name !='Goalkeeper'              
 """, cnx)
 
 #drop Goalkeepers out of clustering
-players_clustering=players[players['singular_name']!='Goalkeeper']
+#players_clustering=players[players['singular_name']!='Goalkeeper']
 #drop out players that have not played (this part can be modified as minutes represent total minutes played)
-players_clustering=players_clustering[players_clustering['minutes']!=0]
-
+players_clustering=players[players['minutes']!=0]
 players_clustering=players_clustering.reset_index(drop=True)
+
 #change data structure for clustering
 players_clustering['influence']=[float(s) for s in players_clustering['influence']]
 players_clustering['creativity']=[float(s) for s in players_clustering['creativity']]
@@ -61,9 +62,9 @@ players_clustering['now_cost']=players_clustering['now_cost'].astype(float)
 players_clustering['now_cost']=players_clustering['now_cost']/10
 players_clustering['ict_index']=players_clustering['ict_index'].astype(float)
 
-cluster_results=players_clustering[['singular_name','team_name','second_name','now_cost','points_per_game','minutes','cluster_label','ict_index']]
+players_clustering=players_clustering[['singular_name','team_name','second_name','now_cost','points_per_game','minutes','cluster_label','ict_index']]
 
-cluster_results=cluster_results.sort_values(by='ict_index',ascending=False)
-cluster_results=cluster_results.reset_index(drop=True)
+players_clustering=players_clustering.sort_values(by='ict_index',ascending=False)
+players_clustering=players_clustering.reset_index(drop=True)
 #write dataframe as table to the database
-cluster_results.to_sql(name='cluster_results', con=cnx,index=False,if_exists='replace')
+players_clustering.to_sql(name='cluster_results', con=cnx,index=False,if_exists='replace')
