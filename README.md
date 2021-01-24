@@ -11,3 +11,10 @@ First execution of the script will create a SQLite database with the load date a
 You can access the DB with an DB Browser for SQLite and explore or take advantage of the available information for further analysis as seen below. Two queries are included as examples as well as a kmeans script to cluster players by their performance.
 
 ![](screenshot.png)
+
+You can also schedule a job via airflow DAG (see "dags" folder) by executing the following commands (under the condtion that you have installed airflow):
+```
+airflow scheduler
+airflow webserver -p 8080
+```
+
