@@ -8,7 +8,7 @@ import datetime
 
 def main():
     # Create your connection with the database, if not already existing it will be created
-    cnx = sqlite3.connect('fpl_data.db')
+    cnx = sqlite3.connect('{add your path}/fpl_data.db')
     api_url= 'https://fantasy.premierleague.com/api/bootstrap-static/'
     #create today's date
     execution_date=str(datetime.date.today())

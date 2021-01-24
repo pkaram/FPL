@@ -5,7 +5,7 @@ import pandas as pd
 
 def main():
     #connect to the database
-    cnx = sqlite3.connect('fpl_data.db')
+    cnx = sqlite3.connect('{add your path}/fpl_data.db')
 
     #load most recent info on players
     players=pd.read_sql("""
@@ -23,7 +23,6 @@ def main():
     where players.date_loaded in (select max(date_loaded) as max_date from players)  
     and player_type.singular_name !='Goalkeeper'              
     """, cnx)
-    cnx.close()
 
     #drop Goalkeepers out of clustering
     #players_clustering=players[players['singular_name']!='Goalkeeper']
@@ -54,6 +53,7 @@ def main():
     players_clustering=players_clustering.reset_index(drop=True)
     #write dataframe as table to the database
     players_clustering.to_sql(name='cluster_results', con=cnx,index=False,if_exists='replace')
+    cnx.close()
 
 if __name__ == '__main__':
     main()
