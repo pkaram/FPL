@@ -5,7 +5,7 @@ import pandas as pd
 
 def main():
     #connect to the database
-    cnx = sqlite3.connect('{add your path}/fpl_data.db')
+    cnx = sqlite3.connect('fpl_data.db')
 
     #load most recent info on players
     players=pd.read_sql("""
@@ -24,8 +24,6 @@ def main():
     and player_type.singular_name !='Goalkeeper'              
     """, cnx)
 
-    #drop Goalkeepers out of clustering
-    #players_clustering=players[players['singular_name']!='Goalkeeper']
     #drop out players that have not played (this part can be modified as minutes represent total minutes played)
     players_clustering=players[players['minutes']!=0]
     players_clustering=players_clustering.reset_index(drop=True)
