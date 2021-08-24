@@ -1,5 +1,12 @@
 ### Fantasy Premier League Database & Analytics
 
+Use conda to create and activate environment
+
+```
+conda env create -f environment.yml
+conda activate fpl 
+```
+
 Based on the available data given by FPL's API you can create a database with information on teams & players. 
 
 ```
@@ -10,11 +17,10 @@ First execution of the script will create a SQLite database with the load date a
 
 You can access the DB with an DB Browser for SQLite and explore or take advantage of the available information for further analysis as seen below. Two queries are included as examples as well as a kmeans script to cluster players by their performance.
 
+```
+python cluster_players.py
+```
+
 ![](screenshot.png)
 
-You can also schedule a job via airflow DAG (see "dags" folder) by executing the following commands (under the condtion that you have installed airflow):
-```
-airflow scheduler
-airflow webserver -p 8080
-```
-
+You can also schedule a job via airflow DAG (see "dags" folder).
