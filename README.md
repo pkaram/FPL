@@ -22,5 +22,3 @@ python cluster_players.py
 ```
 
 ![](screenshot.png)
-
-You can also schedule a job via airflow DAG (see "dags" folder).
